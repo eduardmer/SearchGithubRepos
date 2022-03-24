@@ -1,6 +1,9 @@
 package com.android_paging;
 
 import android.app.Application;
+
+import com.android_paging.di.DaggerAppComponent;
+
 import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;

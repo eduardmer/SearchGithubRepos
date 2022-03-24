@@ -8,8 +8,9 @@ import com.android_paging.api.GithubService;
 import com.android_paging.data_model.RepositoryItems;
 import com.android_paging.data_model.RepositorySearchResponse;
 
+import javax.inject.Inject;
+
 import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class GithubPagingSource extends RxPagingSource<Integer, RepositoryItems> {
@@ -26,16 +27,20 @@ public class GithubPagingSource extends RxPagingSource<Integer, RepositoryItems>
     @NonNull
     @Override
     public Single<LoadResult<Integer, RepositoryItems>> loadSingle(@NonNull LoadParams<Integer> loadParams) {
-        int position=loadParams.getKey()!=null ? loadParams.getKey() : GITHUB_STARTING_PAGE_INDEX;
+        int position=loadParams.getKey() != null ? loadParams.getKey() : GITHUB_STARTING_PAGE_INDEX;
         return service.search(query, position, loadParams.getLoadSize())
                 .subscribeOn(Schedulers.io())
                 .map(repositorySearchResponse -> {
                     try {
-                        return   new LoadResult.Page(repositorySearchResponse.getItems(), position == GITHUB_STARTING_PAGE_INDEX ? null : position - 1, position == repositorySearchResponse.getTotal() ? null : position + 1);
+                        return toLoadResult(repositorySearchResponse, position);
                     }catch (Exception e) {
-                        return   new LoadResult.Error(e);
+                        return new LoadResult.Error(e);
                     }
                 });
+    }
+
+    private LoadResult<Integer, RepositoryItems> toLoadResult(RepositorySearchResponse searchResponse, int currentPosition){
+        return new LoadResult.Page(searchResponse.getItems(), currentPosition == GITHUB_STARTING_PAGE_INDEX ? null : currentPosition-1, currentPosition == searchResponse.getTotal() ? null : currentPosition+1);
     }
 
     @Nullable
