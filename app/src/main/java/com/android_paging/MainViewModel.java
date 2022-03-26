@@ -1,5 +1,6 @@
 package com.android_paging;
 
+import androidx.databinding.ObservableField;
 import androidx.lifecycle.ViewModel;
 import androidx.paging.PagingData;
 
@@ -15,8 +16,8 @@ public class MainViewModel extends ViewModel {
         this.repository=repository;
     }
 
-    public Flowable<PagingData<RepositoryItems>> getRepos(){
-        return repository.getRepos();
+    public Flowable<PagingData<RepositoryItems>> getRepos(String query){
+        return repository.getRepos(query);
     }
 
 }

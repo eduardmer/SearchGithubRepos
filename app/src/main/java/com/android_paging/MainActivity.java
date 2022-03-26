@@ -2,6 +2,7 @@ package com.android_paging;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.util.Log;
 
 import com.android_paging.api.GithubService;
 import com.android_paging.data_model.RepositoryItems;
+import com.android_paging.databinding.ActivityMainBinding;
 
 import javax.inject.Inject;
 
@@ -27,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
+        ActivityMainBinding binding= DataBindingUtil.setContentView(this,R.layout.activity_main);
         setContentView(R.layout.activity_main);
-        MainViewModel viewModel=new MainViewModel(new Repository(new GithubPagingSource(service, "androidpaging2")));
+        MainViewModel viewModel=new MainViewModel(new Repository(service));
         RecyclerView recyclerView=findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         ReposAdapter adapter=new ReposAdapter(new DiffUtil.ItemCallback<RepositoryItems>() {
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(adapter);
-        viewModel.getRepos().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+        viewModel.getRepos("android").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
                 pagingData -> adapter.submitData(getLifecycle(),pagingData),
                 error -> Log.i("pergjigja",error.toString())
         );
