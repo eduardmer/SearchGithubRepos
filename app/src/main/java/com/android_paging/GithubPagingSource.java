@@ -27,7 +27,7 @@ public class GithubPagingSource extends RxPagingSource<Integer, RepositoryItems>
     @Override
     public Single<LoadResult<Integer, RepositoryItems>> loadSingle(@NonNull LoadParams<Integer> loadParams) {
         int position=loadParams.getKey() != null ? loadParams.getKey() : GITHUB_STARTING_PAGE_INDEX;
-        Log.i("pergjigja","pagingsource "+position);
+        Log.i("pergjigja","pagingsource "+position+" "+query);
         return service.search(query, position, loadParams.getLoadSize())
                 .subscribeOn(Schedulers.io())
                 .map(repositorySearchResponse -> toLoadResult(repositorySearchResponse, position))

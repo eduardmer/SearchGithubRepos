@@ -21,12 +21,13 @@ public class Repository {
     }
 
     public Flowable<PagingData<RepositoryItems>> getRepos(String query){
-        Pager<Integer, RepositoryItems> pager = new Pager(new PagingConfig(20,20,true,20),
+        Log.i("pergjigja","pager");
+        Pager<Integer, RepositoryItems> pager = new Pager(new PagingConfig(20,20,false,20,1000),
                 () -> new GithubPagingSource(service, query));
         Flowable<PagingData<RepositoryItems>> flowable=PagingRx.getFlowable(pager);
         Log.i("pergjigja","repository");
-        //PagingRx.cachedIn(flowable, ViewModelKt.getViewModelScope())
-        return PagingRx.getFlowable(pager);
+        //PagingRx.cachedIn(flowable, ViewModelKt.getViewModelScope());
+        return flowable;
     }
 
 }
