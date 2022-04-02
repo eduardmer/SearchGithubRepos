@@ -6,13 +6,13 @@
     <data>
         <variable
             name="data"
-            type="com.android_paging.MainViewModel" />
+            type="com.android_paging.ui.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".ui.MainActivity">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout"

@@ -1,6 +1,6 @@
 package com.android_paging.di;
 
-import com.android_paging.MainActivity;
+import com.android_paging.ui.MainActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
