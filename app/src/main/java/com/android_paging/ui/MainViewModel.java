@@ -1,7 +1,7 @@
 package com.android_paging.ui;
 
-import android.util.Log;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelKt;
 import androidx.paging.Pager;
 import androidx.paging.PagingConfig;
 import androidx.paging.PagingData;
@@ -21,11 +21,10 @@ public class MainViewModel extends ViewModel {
 
     public Flowable<PagingData<RepositoryItems>> getRepos(String query){
         Pager<Integer, RepositoryItems> pager = new Pager(
-                new PagingConfig(20,20,false,20,1000),
+                new PagingConfig(20,20,false,60),
                 () -> new GithubPagingSource(service, query));
         Flowable<PagingData<RepositoryItems>> flowable= PagingRx.getFlowable(pager);
-        Log.i("pergjigja","repository");
-        //PagingRx.cachedIn(flowable, ViewModelKt.getViewModelScope());
+        PagingRx.cachedIn(flowable, ViewModelKt.getViewModelScope(this));
         return flowable;
     }
 

@@ -13,6 +13,12 @@ import com.android_paging.databinding.LoadingStateLayoutBinding;
 
 public class LoadingStateAdapter extends LoadStateAdapter<LoadingStateAdapter.MyViewHolder> {
 
+    final ErrorState listener;
+
+    public LoadingStateAdapter(ErrorState listener){
+        this.listener=listener;
+    }
+
     static class MyViewHolder extends RecyclerView.ViewHolder{
 
         LoadingStateLayoutBinding binding;
@@ -22,8 +28,11 @@ public class LoadingStateAdapter extends LoadStateAdapter<LoadingStateAdapter.My
             this.binding=binding;
         }
 
-        public void bind(LoadState loadState){
+        public void bind(LoadState loadState, ErrorState listener){
             binding.setVariable(BR.state, loadState instanceof LoadState.Loading);
+            if (loadState instanceof LoadState.Error)
+                binding.errorMsg.setText(((LoadState.Error) loadState).getError().getLocalizedMessage());
+            binding.retryButton.setOnClickListener(v -> listener.retry());
         }
     }
 
@@ -36,7 +45,11 @@ public class LoadingStateAdapter extends LoadStateAdapter<LoadingStateAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @NonNull LoadState loadState) {
-        holder.bind(loadState);
+        holder.bind(loadState, listener);
+    }
+
+    interface ErrorState{
+        void retry();
     }
 
 }

@@ -26,7 +26,7 @@ public class ReposAdapter extends PagingDataAdapter<RepositoryItems, ReposAdapte
             this.binding=binding;
         }
 
-        public void onBind(RepositoryItems data){
+        public void bind(RepositoryItems data){
             binding.setVariable(BR.data, data);
             binding.executePendingBindings();
         }
@@ -41,6 +41,6 @@ public class ReposAdapter extends PagingDataAdapter<RepositoryItems, ReposAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ReposAdapter.MyViewHolder holder, int position) {
-        holder.onBind(getItem(position));
+        holder.bind(getItem(position));
     }
 }

@@ -1,6 +1,5 @@
 package com.android_paging.data_model;
 
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.paging.PagingState;
@@ -24,22 +23,19 @@ public class GithubPagingSource extends RxPagingSource<Integer, RepositoryItems>
     @Override
     public Single<LoadResult<Integer, RepositoryItems>> loadSingle(@NonNull LoadParams<Integer> loadParams) {
         int position=loadParams.getKey() != null ? loadParams.getKey() : GITHUB_STARTING_PAGE_INDEX;
-        Log.i("pergjigja","pagingsource "+position+" "+query);
         return service.search(query, position, loadParams.getLoadSize())
                 .subscribeOn(Schedulers.io())
-                .map(repositorySearchResponse -> toLoadResult(repositorySearchResponse, position))
+                .map(repositorySearchResponse -> toLoadResult(repositorySearchResponse, position, loadParams))
                 .onErrorReturn(LoadResult.Error::new);
     }
 
-    private LoadResult<Integer, RepositoryItems> toLoadResult(RepositorySearchResponse searchResponse, int currentPosition){
-        Log.i("pergjigja",currentPosition+" "+searchResponse.getItems().size()+" "+searchResponse.getTotal());
-        return new LoadResult.Page<>(searchResponse.getItems(), currentPosition == GITHUB_STARTING_PAGE_INDEX ? null : currentPosition-1, searchResponse.getItems().size()==0 ? null : currentPosition+1);
+    private LoadResult<Integer, RepositoryItems> toLoadResult(RepositorySearchResponse searchResponse, int currentPosition, LoadParams<Integer> loadParams){
+        return new LoadResult.Page<>(searchResponse.getItems(), currentPosition == GITHUB_STARTING_PAGE_INDEX ? null : currentPosition-1, searchResponse.getItems().size()==0 ? null : currentPosition+loadParams.getLoadSize()/20);
     }
 
     @Nullable
     @Override
     public Integer getRefreshKey(@NonNull PagingState<Integer, RepositoryItems> pagingState) {
-        Log.i("pergjigja","getResfreshKey");
         return null;
     }
 }
