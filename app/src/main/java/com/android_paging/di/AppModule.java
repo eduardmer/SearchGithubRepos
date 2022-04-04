@@ -1,6 +1,12 @@
 package com.android_paging.di;
 
+import android.app.Application;
+
+import androidx.room.Room;
+
 import com.android_paging.api.GithubService;
+import com.android_paging.db.AppDatabase;
+
 import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
@@ -25,6 +31,12 @@ public class AppModule {
     @Provides
     GithubService provideService(Retrofit retrofit){
         return retrofit.create(GithubService.class);
+    }
+
+    @Singleton
+    @Provides
+    AppDatabase provideDatabase(Application application){
+        return Room.databaseBuilder(application.getApplicationContext(), AppDatabase.class, "AppDatabase").build();
     }
 
 }

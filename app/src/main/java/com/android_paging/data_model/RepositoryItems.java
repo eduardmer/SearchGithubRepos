@@ -1,9 +1,14 @@
 package com.android_paging.data_model;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "Repository")
 public class RepositoryItems {
 
+    @PrimaryKey()
     @SerializedName("id")
     private Long id;
     @SerializedName("name")
