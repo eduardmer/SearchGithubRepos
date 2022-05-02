@@ -4,10 +4,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.paging.LoadState;
 import androidx.paging.LoadStateAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import com.android_paging.BR;
 import com.android_paging.R;
 import com.android_paging.databinding.LoadingStateLayoutBinding;
 

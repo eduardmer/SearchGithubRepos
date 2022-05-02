@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import com.android_paging.R;
 import com.android_paging.data_model.RepositoryItems;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             if (!binding.searchRepo.getText().toString().isEmpty()){
                 binding.progressBar.setVisibility(View.VISIBLE);
                 compositeDisposable.clear();
-                compositeDisposable.add(viewModel.getRepos(binding.searchRepo.getText().toString()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                compositeDisposable.add(viewModel.getRepos(binding.searchRepo.getText().toString()).observeOn(AndroidSchedulers.mainThread()).subscribe(
                         pagingData -> {
                             adapter.submitData(getLifecycle(), pagingData);
                             binding.progressBar.setVisibility(View.GONE);

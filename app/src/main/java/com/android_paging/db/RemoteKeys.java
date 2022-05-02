@@ -1,37 +1,35 @@
 package com.android_paging.db;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class RemoteKeys {
 
-    @PrimaryKey
-    private Long repoId;
-    private int prevKey;
-    private int nextKey;
+    @PrimaryKey()
+    @NonNull
+    private String label;
+    private String nextKey;
 
-    public Long getRepoId() {
-        return repoId;
+    public RemoteKeys(@NonNull String label, String nextKey){
+        this.label = label;
+        this.nextKey = nextKey;
     }
 
-    public void setRepoId(Long repoId) {
-        this.repoId = repoId;
+    public String getLabel() {
+        return label;
     }
 
-    public int getPrevKey() {
-        return prevKey;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public void setPrevKey(int prevKey) {
-        this.prevKey = prevKey;
-    }
-
-    public int getNextKey() {
+    public String getNextKey() {
         return nextKey;
     }
 
-    public void setNextKey(int nextKey) {
+    public void setNextKey(String nextKey) {
         this.nextKey = nextKey;
     }
 }
